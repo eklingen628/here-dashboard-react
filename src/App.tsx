@@ -53,8 +53,8 @@ function App() {
         <NavBar/>
         <User_Table/>
         <Sleep_Graph/>
-        {/* <Heart_Rate_Graph/>
-        {users.map(u => (<div key={u.user_id}>{u.user_id}</div>))} */}
+        <Heart_Rate_Graph/>
+        {users.map(u => (<div key={u.user_id}>{u.user_id}</div>))}
 
         <Steps_Graph/>
         
