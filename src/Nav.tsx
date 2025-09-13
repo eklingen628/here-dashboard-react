@@ -15,7 +15,7 @@ export default function NavBar({
   date,
   selectedUser,
   setSelectedUser,
-  users
+  users,
 }: NavBarProps) {
   return (
     <>
@@ -224,28 +224,35 @@ export default function NavBar({
         </nav>
 
         <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-        <select
-  value={selectedUser}
-  onChange={(e) => setSelectedUser(e.target.value)}
-  style={{
-    backgroundColor: "#007bff", // bootstrap blue
-    color: "white",
-    border: "1px solid #0056b3",
-    padding: "0.25rem 0.75rem",
-    borderRadius: "12px", // pill shape
-    marginRight: "0.5rem",
-    fontWeight: "bold",
-    appearance: "none",      // hide default arrow
-    WebkitAppearance: "none",
-    MozAppearance: "none",
-  }}
->
-  {users.map((u) => (
-    <option key={u.user_id} value={u.user_id}>
-      {u.user_id}
-    </option>
-  ))}
-</select>
+          <select
+            value={selectedUser}
+            onChange={(e) => setSelectedUser(e.target.value)}
+            style={{
+              backgroundColor: "#007bff", // bootstrap blue
+              color: "white",
+              border: "1px solid #0056b3",
+              borderRadius: "12px", // pill shape
+              marginRight: "0.5rem",
+              fontWeight: "bold",
+              appearance: "none",
+              WebkitAppearance: "none",
+              MozAppearance: "none",
+              padding: "0.25rem 2rem 0.25rem 0.75rem", // extra right space for arrow
+              backgroundImage:
+                "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='white'><path d='M7 10l5 5 5-5z'/></svg>\")",
+              backgroundRepeat: "no-repeat",
+              backgroundPosition: "right 0.5rem center",
+              backgroundSize: "25px",
+              cursor: "pointer",
+            }}
+          >
+            {users.map((u) => (
+              <option key={u.user_id} value={u.user_id}>
+                {u.user_id}
+              </option>
+            ))}
+          </select>
+
           <button
             style={{
               backgroundColor: "#6c757d", // muted gray
@@ -260,7 +267,16 @@ export default function NavBar({
             Back
           </button>
 
-          <span>{date}</span>
+          <input
+            type="date"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+            style={{
+              padding: "0.25rem 0.75rem",
+              border: "1px solid #ccc",
+              borderRadius: "6px",
+            }}
+          />
 
           <button
             style={{

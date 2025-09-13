@@ -4,6 +4,12 @@ export default function User_Table(props: {
   userData: UserData[];
   setSelectedUser: (id: string) => void;
 }) {
+  function colorize(val: number) {
+    if (val < 50) return "red";
+    if (val < 90) return "#ff8c00";
+    return "inherit";
+  }
+
   const columns = [
     { key: "user_id", label: "ID" },
     { key: "readiness", label: "Readiness Score" },
@@ -17,32 +23,7 @@ export default function User_Table(props: {
     { key: "night", label: "Night (10PM-6AM)" },
   ];
 
-  {
-    /* <th className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-  ID
-</th>
-<th className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-  Last Sync
-</th>
-<th className="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-  Max Time Gap
-</th>
-<th className="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-  Total Time Gap
-</th>
-<th className="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-  Morning (6AM-noon)
-</th>
-<th className="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-  Afternoon (noon-4PM)
-</th>
-<th className="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-  Evening (4PM-10PM)
-</th>
-<th className="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-  Night (10PM-6AM)
-</th> */
-  }
+
 
   return (
     <>
@@ -122,38 +103,6 @@ export default function User_Table(props: {
               <div className="card-body px-0 pb-2">
                 <div className="table-responsive">
                   <table className="table align-items-center mb-0">
-                    {/* <thead>
-    <tr>
-      <th rowSpan={2}>ID</th>
-      <th rowSpan={2}>Readiness Score</th>
-      <th rowSpan={2}>Sleep Score</th>
-      <th rowSpan={2}>Stress Score</th>
-      <th rowSpan={2}>Calories</th>
-      <th rowSpan={2}>Steps</th>
-      <th colSpan={4} style={{ textAlign: "center" }}>%Worn</th>
-    </tr>
-    <tr>
-      {[
-        { key: "morning", label: "Morning (6AM-Noon)" },
-        { key: "afternoon", label: "Afternoon (Noon-4PM)" },
-        { key: "evening", label: "Evening (4PM-10PM)" },
-        { key: "night", label: "Night (10PM-6AM)" },
-      ].map((col) => (
-        <th
-          key={col.key}
-          style={{
-            whiteSpace: "normal",
-            wordBreak: "break-word",
-            fontSize: "0.8rem",
-            padding: "0.25rem",
-            width: "80px",
-          }}
-        >
-          {col.label}
-        </th>
-      ))}
-    </tr>
-  </thead> */}
 
                     <thead>
                       <tr>
@@ -265,13 +214,16 @@ export default function User_Table(props: {
                     <tbody>
                       {props.userData.map((u) => {
                         return (
-                          <tr>
+                          <tr key={u.user_id}>
                             <td>
-                            <button
-                              style={{ all: "unset", cursor: "pointer", color: "blue" }}
-                              onClick={() => props.setSelectedUser(u.user_id)}
-                            >
-
+                              <button
+                                style={{
+                                  all: "unset",
+                                  cursor: "pointer",
+                                  color: "blue",
+                                }}
+                                onClick={() => props.setSelectedUser(u.user_id)}
+                              >
                                 {u.user_id}
                               </button>
                             </td>
@@ -280,10 +232,19 @@ export default function User_Table(props: {
                             <td>{u.stressscore}</td>
                             <td>{u.calories_out}</td>
                             <td>{u.steps}</td>
-                            <td>{u.pct_morning}</td>
-                            <td>{u.pct_afternoon}</td>
-                            <td>{u.pct_evening}</td>
-                            <td>{u.pct_night}</td>
+
+                            <td style={{ color: colorize(u.pct_morning) }}>
+                              {u.pct_morning}
+                            </td>
+                            <td style={{ color: colorize(u.pct_afternoon) }}>
+                              {u.pct_afternoon}
+                            </td>
+                            <td style={{ color: colorize(u.pct_evening) }}>
+                              {u.pct_evening}
+                            </td>
+                            <td style={{ color: colorize(u.pct_night) }}>
+                              {u.pct_night}
+                            </td>
                           </tr>
                         );
                       })}
