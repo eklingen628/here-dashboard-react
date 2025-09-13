@@ -3,6 +3,12 @@ export default function NavBar() {
     <>
 
 
+
+
+
+
+
+
         <nav
           className="navbar navbar-main navbar-expand-lg px-0 mx-3 shadow-none border-radius-xl"
           id="navbarBlur"
@@ -204,6 +210,9 @@ export default function NavBar() {
               </ul>
             </div>
           </div>
+
+
+
         </nav>
 
 

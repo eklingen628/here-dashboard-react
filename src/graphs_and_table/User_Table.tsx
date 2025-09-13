@@ -1,4 +1,59 @@
-export default function User_Table() {
+import type {UserData } from "../App";
+import Table_Row_User from "./Table_Row_User";
+
+
+export default function User_Table(props: {
+  userData: UserData[];
+  setSelectedUser: (id: string) => void;
+}) {
+  const columns = [
+    { key: "user_id", label: "ID" },
+    { key: "readiness", label: "Readiness Score" },
+    { key: "efficiency", label: "Sleep Score" },
+    { key: "stress", label: "Stress Score" },
+    { key: "calories", label: "Calories" },
+    { key: "steps", label: "Steps" },
+    { key: "morning", label: "Morning (6AM-noon)" },
+    { key: "afternoon", label: "Afternoon (noon-4PM)" },
+    { key: "evening", label: "Evening (4PM-10PM)" },
+    { key: "night", label: "Night (10PM-6AM)" },
+  ];
+
+
+
+{/* <th className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+  ID
+</th>
+<th className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+  Last Sync
+</th>
+<th className="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+  Max Time Gap
+</th>
+<th className="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+  Total Time Gap
+</th>
+<th className="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+  Morning (6AM-noon)
+</th>
+<th className="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+  Afternoon (noon-4PM)
+</th>
+<th className="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+  Evening (4PM-10PM)
+</th>
+<th className="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+  Night (10PM-6AM)
+</th> */}
+
+
+
+
+
+
+
+
+
   return (
     <>
 
@@ -7,7 +62,7 @@ export default function User_Table() {
           <div className="ms-3">
             <h3 className="mb-0 h4 font-weight-bolder">Dashboard</h3>
             <p className="mb-4">
-              Check the sales, value and bounce rate by country.
+             
             </p>
           </div>
 
@@ -79,36 +134,48 @@ export default function User_Table() {
                   </div>
                   <div className="card-body px-0 pb-2">
                     <div className="table-responsive">
+
+
+
+
+
                       <table className="table align-items-center mb-0">
                         <thead>
                           <tr>
-                            <th className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                              ID
-                            </th>
-                            <th className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                              Last Sync
-                            </th>
-                            <th className="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                              Max Time Gap
-                            </th>
-                            <th className="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                              Total Time Gap
-                            </th>
-                            <th className="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                              Morning (6AM-noon)
-                            </th>
-                            <th className="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                              Afternoon (noon-4PM)
-                            </th>
-                            <th className="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                              Evening (4PM-10PM)
-                            </th>
-                            <th className="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                              Night (10PM-6AM)
-                            </th>
+                          {columns.map(col => (
+                              <th key={col.key} style={{ whiteSpace: "normal", wordBreak: "break-word", fontSize: "0.8rem", padding: "0.25rem" }}>{col.label}</th>
+                            ))}
+
                           </tr>
                         </thead>
-                        <tbody></tbody>
+                        <tbody>
+                          {props.userData.map(u => {
+
+                            return (
+                            <tr>
+                              <td>
+                                <a href="#" onClick={() => props.setSelectedUser(u.user_id)}>
+                                  {u.user_id}
+                                </a>
+                              </td>
+                              <td>{u.daily_readiness}</td>
+                              <td>{u.efficiency}</td>
+                              <td>{u.stressscore}</td>
+                              <td>{u.calories_out}</td>
+                              <td>{u.steps}</td>
+                              <td>{u.pct_morning}</td>
+                              <td>{u.pct_afternoon}</td>
+                              <td>{u.pct_evening}</td>
+                              <td>{u.pct_night}</td>
+                            </tr>
+
+                            
+                            )
+                          })}
+
+                          
+                        
+                        </tbody>
                       </table>
                     </div>
                   </div>
@@ -118,30 +185,12 @@ export default function User_Table() {
 
 
 
-          {/* <?php
-            if(isset($_GET['uid']) && !empty($_GET['uid'])) {
-            ?> */}
-          <div className="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-            <div className="card">
-              <div className="card-header p-2 ps-3">
-                <div className="d-flex justify-content-between">
-                  <div>
-                    <p className="text-sm mb-0 text-capitalize">Total Steps</p>
-                    {/* <h4 className="mb-0"><?php echo $total_steps; ?></h4> */}
-                  </div>
-                  <div className="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
-                    <i className="material-symbols-rounded opacity-10">
-                      weekend
-                    </i>
-                  </div>
-                </div>
-              </div>
-              <hr className="dark horizontal my-0" />
-              <div className="card-footer p-2 ps-3">
-                {/* <p className="mb-0 text-sm"><?php echo $total_steps_date; ?></p> */}
-              </div>
-            </div>
-          </div>
+
+
+        
+        
+        
+        
         </div>
 
     </>
