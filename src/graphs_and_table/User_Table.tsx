@@ -4,9 +4,14 @@ export default function User_Table(props: {
   userData: UserData[];
   setSelectedUser: (id: string) => void;
 }) {
+  const problemNum = 50;
+  const warnNum = 90;
+  const problemColor = "red";
+  const warnColor = "#ff8c00";
+
   function colorize(val: number) {
-    if (val < 50) return "red";
-    if (val < 90) return "#ff8c00";
+    if (val < problemNum) return problemColor;
+    if (val < warnNum) return warnColor;
     return "inherit";
   }
 
@@ -22,8 +27,6 @@ export default function User_Table(props: {
     { key: "evening", label: "Evening (4PM-10PM)" },
     { key: "night", label: "Night (10PM-6AM)" },
   ];
-
-
 
   return (
     <>
@@ -48,9 +51,6 @@ export default function User_Table(props: {
                         className="fa fa-check text-info"
                         aria-hidden="true"
                       ></i>
-                      <span className="font-weight-bold ms-1">Time Gap</span> is
-                      the amount of time data is unreported for a particular
-                      user
                     </p>
                     <p className="text-sm mb-0">
                       Click on an ID for detailed information about a particular
@@ -103,7 +103,6 @@ export default function User_Table(props: {
               <div className="card-body px-0 pb-2">
                 <div className="table-responsive">
                   <table className="table align-items-center mb-0">
-
                     <thead>
                       <tr>
                         <th
@@ -171,6 +170,22 @@ export default function User_Table(props: {
                           style={{ textAlign: "center", fontSize: "0.8rem" }}
                         >
                           %Worn
+                          <div
+                            style={{
+                              display: "flex",
+                              justifyContent: "center",
+                              gap: "1rem", // space between numbers
+                              marginTop: "0.25rem",
+                              fontSize: "0.75rem",
+                            }}
+                          >
+                            <span style={{ color: problemColor }}>
+                              {"< " + problemNum}
+                            </span>
+                            <span style={{ color: warnColor }}>
+                              {"< " + warnNum}
+                            </span>
+                          </div>
                         </th>
                       </tr>
                       <tr>
