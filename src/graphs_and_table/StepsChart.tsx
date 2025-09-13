@@ -29,6 +29,9 @@ type ChartProps = { graphData: GraphData; yLabel?: string };
 export default function StepsChart({ graphData, yLabel }: ChartProps) {
   // samples = [{ time: "2025-09-12T06:00:00Z", bpm: 65 }, ...]
 
+  const xMin = `${graphData.date_queried}T00:00:00`
+  const xMax = `${graphData.date_queried}T23:59:59`
+
   if (graphData) {
     const data = {
       datasets: [
@@ -49,8 +52,10 @@ export default function StepsChart({ graphData, yLabel }: ChartProps) {
     const options = {
       scales: {
         x: {
-          type: "time" as const, // 👈 literal type, not just string
+          type: "time" as const, 
           time: { unit: "hour" as const },
+          min: xMin,
+          max: xMax
         },
         y: {
           title: { display: true, text: yLabel },

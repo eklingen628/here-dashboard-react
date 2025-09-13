@@ -1,6 +1,7 @@
 import type { GraphData } from "../App";
 import HeartRateChart from "./HeartRateChart";
 import StepsChart from "./StepsChart";
+import SleepChart from "./SleepChart";
 
 
 type MetricGraphProps = {
@@ -28,6 +29,13 @@ export default function Metric_Graph({ graphData, yLabel, type }: MetricGraphPro
     title = "Steps"
   }
 
+  if (type === "sleep") {
+    chart = <SleepChart graphData={graphData} yLabel={yLabel} />;
+    title = "Sleep"
+  }
+
+
+
   return (
     <>
       <div className="row">
@@ -44,15 +52,7 @@ export default function Metric_Graph({ graphData, yLabel, type }: MetricGraphPro
               </div>
 
               <hr className="dark horizontal" />
-              <div className="d-flex ">
-                <i className="material-symbols-rounded text-sm my-auto me-1">
-                  schedule
-                </i>
-                <p className="mb-0 text-sm" id="heart_update">
-                  {" "}
-                  updated 4 min ago{" "}
-                </p>
-              </div>
+
             </div>
           </div>
         </div>

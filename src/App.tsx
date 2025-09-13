@@ -26,6 +26,7 @@ export type GraphData = {
   date_queried: string;
   heart: Sample[];
   steps: Sample[];
+  sleep: SleepStage[];
 }
 
 
@@ -35,6 +36,12 @@ type Sample = {
 };
 
 
+type SleepStage = {
+  stage: string;
+  start_time: string;  // ISO string
+  end_time: string;    // ISO string
+  duration_minutes: number;
+};
 
 
 
@@ -49,7 +56,8 @@ function App() {
     user_id: "",
     date_queried: "",
     heart: [],
-    steps: []
+    steps: [],
+    sleep: []
   });
 
   useEffect(() => {
@@ -82,45 +90,10 @@ function App() {
 
 
 
-  // maybe pick this back up again
-  // useEffect(() => {
-  //   if (!selectedUser) return;
-  //   fetch(`/api/user?id=${selectedUser}&date=${date}`)
-  //     .then((res) => res.json())
-  //     .then(setGraphs);
-  // }, [selectedUser, date]);
 
 
 
 
-
-
-
-
-  // const [users, setUsers] = useState<User[]>([])
-
-  // useEffect(() => {
-  //   const controller = new AbortController();
-
-  //   const loadUsers = async () => {
-  //     try {
-  //       const res = await fetch(`/api/users`, {
-  //         signal: controller.signal,
-  //       });
-  //       const data = await res.json();
-  //       console.log("Fetched data: ", data)
-  //       setUsers(data);
-  //     } catch (err) {
-  //       if (err instanceof Error) {
-  //         console.error("User fetching error: ", err);
-  //       }
-  //     }
-  //   };
-
-  //   loadUsers();
-
-  //   return () => controller.abort(); // cleanup if unmounted
-  // }, []);
 
   function shiftDate(date: string, days: number) {
     const [y, m, d] = date.split("-").map(Number);
@@ -132,48 +105,8 @@ function App() {
 
   return (
     <>
-      <div
-        style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          right: 0,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          padding: "0.5rem 1rem",
-          background: "white",
-          borderBottom: "1px solid #ccc",
-          zIndex: 1000,
-        }}
-      >
-        <NavBar />
 
-        <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-          <button
-            style={{
-              backgroundColor: "white",
-              color: "black",
-              border: "1px solid black",
-            }}
-            onClick={() => setDate((prev) => shiftDate(prev, -1))}
-          >
-            Back
-          </button>
-          <span>{date}</span>
-          <button
-            style={{
-              backgroundColor: "white",
-              color: "black",
-              border: "1px solid black",
-            }}
-            onClick={() => setDate((prev) => shiftDate(prev, 1))}
-          >
-            Forward
-          </button>
-        </div>
-      </div>
-
+      <NavBar setDate={setDate} shiftDate={shiftDate} date={date} selectedUser={selectedUser} setSelectedUser={setSelectedUser} users={users} />
       <main
         style={{ marginTop: "60px" }}
         className="main-content position-relative max-height-vh-100 h-100 border-radius-lg "
@@ -183,6 +116,7 @@ function App() {
         {/* <Sleep_Graph /> */}
         <Metric_Graph graphData={graphData} type="heart" yLabel="BPM"  />
         <Metric_Graph graphData={graphData} type="steps" yLabel="Steps"  />
+        <Metric_Graph graphData={graphData} type="sleep" yLabel="Sleep Stage"  />
       </main>
     </>
   );

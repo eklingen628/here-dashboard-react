@@ -1,14 +1,39 @@
-export default function NavBar() {
+import type { UserData } from "./App";
+
+type NavBarProps = {
+  setDate: React.Dispatch<React.SetStateAction<string>>;
+  shiftDate: (date: string, days: number) => string;
+  date: string;
+  selectedUser: string;
+  setSelectedUser: (id: string) => void;
+  users: UserData[];
+};
+
+export default function NavBar({
+  setDate,
+  shiftDate,
+  date,
+  selectedUser,
+  setSelectedUser,
+  users
+}: NavBarProps) {
   return (
     <>
-
-
-
-
-
-
-
-
+      <div
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          padding: "0.5rem 1rem",
+          background: "white",
+          borderBottom: "1px solid #ccc",
+          zIndex: 1000,
+        }}
+      >
         <nav
           className="navbar navbar-main navbar-expand-lg px-0 mx-3 shadow-none border-radius-xl"
           id="navbarBlur"
@@ -40,7 +65,7 @@ export default function NavBar() {
                   <input type="text" className="form-control" /> */}
                 </div>
               </div>
-              <ul className="navbar-nav d-flex align-items-center  justify-content-end">
+              {/* <ul className="navbar-nav d-flex align-items-center  justify-content-end">
                 <li className="nav-item d-flex align-items-center">
                   <a
                     className="btn btn-outline-primary btn-sm mb-0 me-3"
@@ -50,18 +75,6 @@ export default function NavBar() {
                     Online Builder
                   </a>
                 </li>
-                {/* <li className="mt-1">
-                  <a
-                    className="github-button"
-                    href="https://github.com/creativetimofficial/material-dashboard"
-                    data-icon="octicon-star"
-                    data-size="large"
-                    data-show-count="true"
-                    aria-label="Star creativetimofficial/material-dashboard on GitHub"
-                  >
-                    Star
-                  </a>
-                </li> */}
                 <li className="nav-item d-xl-none ps-3 d-flex align-items-center">
                   <a
                     href="javascript:;"
@@ -156,7 +169,6 @@ export default function NavBar() {
                       >
                         <div className="d-flex py-1">
                           <div className="avatar avatar-sm bg-gradient-secondary  me-3  my-auto">
-                            {/* <svg width="12px" height="12px" viewBox="0 0 43 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"> */}
                             <title>Here-Dashboard</title>
                             <g
                               stroke="none"
@@ -184,7 +196,6 @@ export default function NavBar() {
                                 </g>
                               </g>
                             </g>
-                            {/* </svg> */}
                           </div>
                           <div className="d-flex flex-column justify-content-center">
                             <h6 className="text-sm font-weight-normal mb-1">
@@ -207,15 +218,65 @@ export default function NavBar() {
                     <i className="material-symbols-rounded">account_circle</i>
                   </a>
                 </li>
-              </ul>
+              </ul> */}
             </div>
           </div>
-
-
-
         </nav>
 
+        <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+        <select
+  value={selectedUser}
+  onChange={(e) => setSelectedUser(e.target.value)}
+  style={{
+    backgroundColor: "#007bff", // bootstrap blue
+    color: "white",
+    border: "1px solid #0056b3",
+    padding: "0.25rem 0.75rem",
+    borderRadius: "12px", // pill shape
+    marginRight: "0.5rem",
+    fontWeight: "bold",
+    appearance: "none",      // hide default arrow
+    WebkitAppearance: "none",
+    MozAppearance: "none",
+  }}
+>
+  {users.map((u) => (
+    <option key={u.user_id} value={u.user_id}>
+      {u.user_id}
+    </option>
+  ))}
+</select>
+          <button
+            style={{
+              backgroundColor: "#6c757d", // muted gray
+              color: "white",
+              border: "1px solid #5a6268",
+              padding: "0.25rem 0.75rem",
+              borderRadius: "6px",
+              cursor: "pointer",
+            }}
+            onClick={() => setDate((prev) => shiftDate(prev, -1))}
+          >
+            Back
+          </button>
 
+          <span>{date}</span>
+
+          <button
+            style={{
+              backgroundColor: "#17a2b8", // teal / cyan
+              color: "white",
+              border: "1px solid #117a8b",
+              padding: "0.25rem 0.75rem",
+              borderRadius: "6px",
+              cursor: "pointer",
+            }}
+            onClick={() => setDate((prev) => shiftDate(prev, 1))}
+          >
+            Forward
+          </button>
+        </div>
+      </div>
     </>
   );
 }
