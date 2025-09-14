@@ -241,8 +241,11 @@ useEffect(() => {
 <main
   style={{
     marginTop: "60px",
-    padding: "0 1rem",
+    marginLeft: 0,   // ✅ kill any left margin
+    marginRight: 0,  // ✅ optional, keeps it flush
+    padding: viewMode === "Daily" ? "0 1rem" : "0",
     boxSizing: "border-box",
+    width: "100%",
   }}
 >
   {viewMode === "Daily" && (
