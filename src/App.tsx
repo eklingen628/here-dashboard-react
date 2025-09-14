@@ -98,47 +98,47 @@ function App() {
       />
 
 
-      <main
+<main
   style={{
     marginTop: "60px",
     display: "flex",
+    flexWrap: "wrap",      // ✅ allow stack on small screens
     gap: "2rem",
     alignItems: "flex-start",
-    width: "100%",        // use container width, not viewport width
+    justifyContent: "center", // ✅ center when stacked
+    width: "100%",
     maxWidth: "100%",
     padding: "0 1rem",
     boxSizing: "border-box",
   }}
 >
   {/* Left side: user table */}
-{/* Left side: user table */}
-<div
-  style={{
-    flex: "1 1 0",        // grow and shrink equally
-    minWidth: "400px",    // don’t collapse too narrow
-    maxWidth: "50%",      // cap at half
-  }}
->
-  <User_Table userData={users} setSelectedUser={setSelectedUser} />
-</div>
+  <div
+    style={{
+      flex: "1 1 600px",   // ✅ flexible: takes half, min 600px
+      minWidth: "400px",   // ✅ don’t shrink too small
+      maxWidth: "800px",   // ✅ cap width on wide screens
+    }}
+  >
+    <User_Table userData={users} setSelectedUser={setSelectedUser} />
+  </div>
 
-{/* Right side: graphs */}
-<div
-  style={{
-    flex: "1 1 0",        // grow and shrink equally
-    minWidth: "400px",    // same safety minimum
-    maxWidth: "50%",      // cap at half
-    display: "flex",
-    flexDirection: "column",
-    gap: "1.5rem",
-  }}
->
-  <Metric_Graph graphData={graphData} type="heart" yLabel="BPM" />
-  <Metric_Graph graphData={graphData} type="steps" yLabel="Steps" />
-  <Metric_Graph graphData={graphData} type="sleep" yLabel="Sleep Stage" />
-</div>
-
+  {/* Right side: graphs */}
+  <div
+    style={{
+      flex: "2 1 600px",   // ✅ graphs take more space when possible
+      minWidth: "400px",
+      display: "flex",
+      flexDirection: "column",
+      gap: "1.5rem",
+    }}
+  >
+    <Metric_Graph graphData={graphData} type="heart" yLabel="BPM" />
+    <Metric_Graph graphData={graphData} type="steps" yLabel="Steps" />
+    <Metric_Graph graphData={graphData} type="sleep" yLabel="Sleep Stage" />
+  </div>
 </main>
+
 
 
 
