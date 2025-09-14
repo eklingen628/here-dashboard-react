@@ -62,6 +62,7 @@ export default function StepsChart({ graphData, yLabel }: ChartProps) {
         },
       },
       responsive: true,
+      maintainAspectRatio: false,
       plugins: {
         legend: { display: false },
       },

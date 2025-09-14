@@ -59,6 +59,7 @@ export default function SleepChart({ graphData, yLabel }: ChartProps) {
   const options = {
     indexAxis: "y" as const,
     responsive: true,
+    maintainAspectRatio: false,
     scales: {
       x: {
         type: "time" as const,
