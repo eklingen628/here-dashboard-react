@@ -153,7 +153,7 @@ export default function User_Table(props: {
                             key={String(c.key)}
                             style={{ color: colorize(v), textAlign: "center", fontSize: "0.8rem" }}
                           >
-                            {v}
+                            {v ?? 0}
                           </td>
                         );
                       })}
