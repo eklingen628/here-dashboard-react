@@ -1,4 +1,5 @@
 import type { UserData } from "./Dashboard";
+import { useState, useRef, useEffect } from "react";
 
 type NavBarProps = {
   setDate: React.Dispatch<React.SetStateAction<string>>;
@@ -22,7 +23,14 @@ type NavBarProps = {
       | "Aggregate - %Worn"
     >
   >;
+  pwView: string;
+  setPWView: React.Dispatch<React.SetStateAction<"dashboard" | "changepw">>;
 };
+
+
+
+
+
 
 export default function NavBar({
   setDate,
@@ -33,13 +41,38 @@ export default function NavBar({
   userDailyData,
   viewMode,
   setViewMode,
+  pwView,
+  setPWView
 }: NavBarProps) {
+
+
+  const [open, setOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
 
 
   function handleSignOut() {
     localStorage.removeItem("token");
     window.location.reload(); // goes back to <Login />
   }
+
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+
+
+
+
+
 
 
   return (
@@ -191,19 +224,99 @@ export default function NavBar({
             </>
           )}
         </div>
-        <button
-        onClick={handleSignOut}
+
+
+
+
+
+
+
+
+
+        <div ref={menuRef} style={{ position: "relative", display: "inline-block" }}>
+      <button
+        onClick={() => setOpen(!open)}
         style={{
-          padding: "0.4rem 0.8rem",
-          border: "none",
-          borderRadius: "4px",
-          background: "#dc3545", // red
-          color: "white",
+          padding: "0.5rem 1rem",
+          border: "1px solid #d0d0d0",
+          borderRadius: "6px",
+          background: "#e0e0e0", // soft neutral gray
+          color: "#333", // muted dark gray
           cursor: "pointer",
+          fontSize: "0.95rem",
         }}
       >
-        Sign Out
+        Profile ▾
       </button>
+
+      {open && (
+        <div
+          style={{
+            position: "absolute",
+            top: "110%",
+            right: 0,
+            background: "#ffffff",
+            border: "1px solid #c0c0c0",
+            borderRadius: "8px",
+            boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+            display: "flex",
+            flexDirection: "column",
+            minWidth: "160px",
+            zIndex: 1000,
+          }}
+        >
+          <button
+            onClick={handleSignOut}
+            style={{
+              padding: "0.75rem 1rem",
+              border: "none",
+              background: "transparent",
+              color: "#555",
+              textAlign: "left",
+              cursor: "pointer",
+              fontSize: "0.9rem",
+            }}
+            onMouseOver={(e) => (e.currentTarget.style.background = "#f5f5f5")}
+            onMouseOut={(e) => (e.currentTarget.style.background = "transparent")}
+          >
+            Sign Out
+          </button>
+
+          <button
+            onClick={() => setPWView("changepw")}
+            style={{
+              padding: "0.75rem 1rem",
+              border: "none",
+              background: "transparent",
+              color: "#555",
+              textAlign: "left",
+              cursor: "pointer",
+              fontSize: "0.9rem",
+            }}
+            onMouseOver={(e) => (e.currentTarget.style.background = "#f5f5f5")}
+            onMouseOut={(e) => (e.currentTarget.style.background = "transparent")}
+          >
+            Change Password
+          </button>
+        </div>
+      )}
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       </div>
     </nav>
   );
