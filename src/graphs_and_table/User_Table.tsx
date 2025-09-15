@@ -1,4 +1,4 @@
-import type { UserData } from "../App";
+import type { UserData } from "../Dashboard";
 
 export default function User_Table(props: {
   userData: UserData[];

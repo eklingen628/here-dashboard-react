@@ -11,7 +11,7 @@ import {
 } from "chart.js";
 
 import "chartjs-adapter-date-fns";
-import type { GraphData } from "../App";
+import type { GraphData } from "../Dashboard";
 
 ChartJS.register(
   LineElement,

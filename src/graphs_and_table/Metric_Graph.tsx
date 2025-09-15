@@ -1,4 +1,4 @@
-import type { GraphData } from "../App";
+import type { GraphData } from "../Dashboard";
 import HeartRateChart from "./HeartRateChart";
 import StepsChart from "./StepsChart";
 import SleepChart from "./SleepChart";

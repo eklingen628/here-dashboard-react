@@ -1,4 +1,4 @@
-import type { UserData } from "./App";
+import type { UserData } from "./Dashboard";
 
 type NavBarProps = {
   setDate: React.Dispatch<React.SetStateAction<string>>;
@@ -34,6 +34,14 @@ export default function NavBar({
   viewMode,
   setViewMode,
 }: NavBarProps) {
+
+
+  function handleSignOut() {
+    localStorage.removeItem("token");
+    window.location.reload(); // goes back to <Login />
+  }
+
+
   return (
     <nav
       style={{
@@ -183,6 +191,19 @@ export default function NavBar({
             </>
           )}
         </div>
+        <button
+        onClick={handleSignOut}
+        style={{
+          padding: "0.4rem 0.8rem",
+          border: "none",
+          borderRadius: "4px",
+          background: "#dc3545", // red
+          color: "white",
+          cursor: "pointer",
+        }}
+      >
+        Sign Out
+      </button>
       </div>
     </nav>
   );
