@@ -241,7 +241,6 @@ export default function Dashboard({ token }: { token: string }) {
             userDailyData={userDailyData}
             viewMode={viewMode}
             setViewMode={setViewMode}
-            pwView={pwView}
             setPWView={setPWView}
           />
 

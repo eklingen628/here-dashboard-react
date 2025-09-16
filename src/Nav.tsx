@@ -23,7 +23,6 @@ type NavBarProps = {
       | "Aggregate - %Worn"
     >
   >;
-  pwView: string;
   setPWView: React.Dispatch<React.SetStateAction<"dashboard" | "changepw">>;
 };
 
@@ -36,7 +35,6 @@ export default function NavBar({
   userDailyData,
   viewMode,
   setViewMode,
-  pwView,
   setPWView,
 }: NavBarProps) {
   const [open, setOpen] = useState(false);
@@ -57,16 +55,7 @@ export default function NavBar({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // shared button styles
-  const baseButton = {
-    padding: "0.35rem 0.75rem",
-    border: "none",
-    borderRadius: "6px",
-    color: "white",
-    cursor: "pointer",
-    transition: "all 0.2s ease",
-    boxShadow: "0 1px 3px rgba(0,0,0,0.08)",
-  } as const;
+
 
   return (
     <nav
