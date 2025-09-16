@@ -3,9 +3,9 @@ import { useState } from "react";
 
 type ChangePWProps = {
   setPWView: React.Dispatch<React.SetStateAction<"dashboard" | "changepw">>;
-}
+};
 
-export default function ChangePW({setPWView}: ChangePWProps) {
+export default function ChangePW({ setPWView }: ChangePWProps) {
   const [oldpw, setOldpw] = useState("");
   const [newpw1, setNewpw1] = useState("");
   const [newpw2, setNewpw2] = useState("");
@@ -17,9 +17,10 @@ export default function ChangePW({setPWView}: ChangePWProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Frontend validation
     if (newpw1.length < MIN_LEN || newpw1.length > MAX_LEN) {
-      setMessage(`Password must be between ${MIN_LEN} and ${MAX_LEN} characters`);
+      setMessage(
+        `Password must be between ${MIN_LEN} and ${MAX_LEN} characters`,
+      );
       return;
     }
     if (newpw1 !== newpw2) {
@@ -28,7 +29,7 @@ export default function ChangePW({setPWView}: ChangePWProps) {
     }
 
     try {
-      const token = localStorage.getItem("token"); // adjust if you store it differently
+      const token = localStorage.getItem("token");
       const res = await fetch("/api/changepw", {
         method: "POST",
         headers: {
@@ -61,7 +62,7 @@ export default function ChangePW({setPWView}: ChangePWProps) {
           padding: "2rem",
           borderRadius: "8px",
           boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-          width: "300px",
+          width: "380px", // match Login form
           display: "flex",
           flexDirection: "column",
           gap: "1rem",
@@ -71,53 +72,119 @@ export default function ChangePW({setPWView}: ChangePWProps) {
           Change Password
         </h2>
 
-        <input
-          type="password"
-          placeholder="Old Password"
-          required
-          value={oldpw}
-          onChange={(e) => setOldpw(e.target.value)}
+        {/* Old password */}
+        <div
           style={{
-            padding: "0.5rem",
-            fontSize: "1rem",
-            border: "1px solid #ccc",
-            borderRadius: "4px",
+            display: "flex",
+            flexDirection: "column",
+            gap: "0.4rem",
+            width: "100%",
+            alignItems: "flex-start",
           }}
-        />
+        >
+          <label
+            htmlFor="oldpw"
+            style={{
+              fontSize: "1rem",
+              color: "#333",
+              marginBottom: 0,
+            }}
+          >
+            Old Password
+          </label>
+          <input
+            id="oldpw"
+            type="password"
+            required
+            value={oldpw}
+            onChange={(e) => setOldpw(e.target.value)}
+            style={{
+              padding: "0.5rem",
+              fontSize: "1rem",
+              border: "1px solid #ccc",
+              borderRadius: "4px",
+              width: "100%",
+            }}
+          />
+        </div>
 
-        <input
-          type="password"
-          placeholder="New Password"
-          required
-          minLength={MIN_LEN}
-          maxLength={MAX_LEN}
-          value={newpw1}
-          onChange={(e) => setNewpw1(e.target.value)}
+        {/* New password */}
+        <div
           style={{
-            padding: "0.5rem",
-            fontSize: "1rem",
-            border: "1px solid #ccc",
-            borderRadius: "4px",
+            display: "flex",
+            flexDirection: "column",
+            gap: "0.4rem",
+            width: "100%",
+            alignItems: "flex-start",
           }}
-        />
+        >
+          <label
+            htmlFor="newpw1"
+            style={{
+              fontSize: "1rem",
+              color: "#333",
+              marginBottom: 0,
+            }}
+          >
+            New Password
+          </label>
+          <input
+            id="newpw1"
+            type="password"
+            required
+            minLength={MIN_LEN}
+            maxLength={MAX_LEN}
+            value={newpw1}
+            onChange={(e) => setNewpw1(e.target.value)}
+            style={{
+              padding: "0.5rem",
+              fontSize: "1rem",
+              border: "1px solid #ccc",
+              borderRadius: "4px",
+              width: "100%",
+            }}
+          />
+        </div>
 
-        <input
-          type="password"
-          placeholder="Re-Enter New Password"
-          required
-          minLength={MIN_LEN}
-          maxLength={MAX_LEN}
-          value={newpw2}
-          onChange={(e) => setNewpw2(e.target.value)}
+        {/* Confirm password */}
+        <div
           style={{
-            padding: "0.5rem",
-            fontSize: "1rem",
-            border: "1px solid #ccc",
-            borderRadius: "4px",
-            marginBottom: "30px",
+            display: "flex",
+            flexDirection: "column",
+            gap: "0.4rem",
+            width: "100%",
+            alignItems: "flex-start",
           }}
-        />
+        >
+          <label
+            htmlFor="newpw2"
+            style={{
+              fontSize: "1rem",
+              color: "#333",
+              marginBottom: 0,
+            }}
+          >
+            Re-enter New Password
+          </label>
+          <input
+            id="newpw2"
+            type="password"
+            required
+            minLength={MIN_LEN}
+            maxLength={MAX_LEN}
+            value={newpw2}
+            onChange={(e) => setNewpw2(e.target.value)}
+            style={{
+              padding: "0.5rem",
+              fontSize: "1rem",
+              border: "1px solid #ccc",
+              borderRadius: "4px",
+              width: "100%",
+            }}
+          />
+        </div>
 
+        {/* Submit */}
         <button
           type="submit"
           style={{
@@ -134,27 +201,34 @@ export default function ChangePW({setPWView}: ChangePWProps) {
         </button>
 
         {message && (
-          <p style={{ textAlign: "center", color: "red", marginTop: "1rem" }}>
+          <p
+            style={{
+              textAlign: "center",
+              color:
+                message === "Password changed successfully" ? "green" : "red",
+              marginTop: "1rem",
+            }}
+          >
             {message}
           </p>
         )}
 
-
-<button
-  type="button"
-  onClick={() => setPWView("dashboard")}
-  style={{
-    padding: "0.6rem",
-    fontSize: "1rem",
-    border: "none",
-    borderRadius: "4px",
-    background: "#6c757d", // gray
-    color: "white",
-    cursor: "pointer",
-  }}
->
-  Back
-</button>
+        {/* Back */}
+        <button
+          type="button"
+          onClick={() => setPWView("dashboard")}
+          style={{
+            padding: "0.6rem",
+            fontSize: "1rem",
+            border: "none",
+            borderRadius: "4px",
+            background: "#6c757d",
+            color: "white",
+            cursor: "pointer",
+          }}
+        >
+          Back
+        </button>
       </form>
     </div>
   );
