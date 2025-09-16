@@ -59,7 +59,7 @@ export default function User_Table(props: {
       <div className="col-lg-12 col-md-12 mb-md-0 mb-4">
         <div className="card">
           <div className="card-header pb-0">
-            <h6>User Data Summary</h6>
+            <h6>User Daily Data Summary</h6>
             <p className="text-sm mb-0">Click an ID below for more details.</p>
           </div>
 
