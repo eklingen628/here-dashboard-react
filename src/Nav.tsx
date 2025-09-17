@@ -1,4 +1,4 @@
-import type { UserData } from "./Dashboard";
+import type { UserData, ViewMode } from "./Dashboard";
 import { useState, useRef, useEffect } from "react";
 
 type NavBarProps = {
@@ -8,21 +8,8 @@ type NavBarProps = {
   selectedUser: string;
   setSelectedUser: (id: string) => void;
   userDailyData: UserData[];
-  viewMode:
-    | "Daily"
-    | "Aggregate - Steps"
-    | "Aggregate - HRV"
-    | "Aggregate - Sleep"
-    | "Aggregate - %Worn";
-  setViewMode: React.Dispatch<
-    React.SetStateAction<
-      | "Daily"
-      | "Aggregate - Steps"
-      | "Aggregate - HRV"
-      | "Aggregate - Sleep"
-      | "Aggregate - %Worn"
-    >
-  >;
+  viewMode: ViewMode;
+  setViewMode: React.Dispatch<React.SetStateAction<ViewMode>>;
   setPWView: React.Dispatch<React.SetStateAction<"dashboard" | "changepw">>;
 };
 
@@ -102,14 +89,7 @@ export default function NavBar({
           <select
             value={viewMode}
             onChange={(e) =>
-              setViewMode(
-                e.target.value as
-                  | "Daily"
-                  | "Aggregate - Steps"
-                  | "Aggregate - HRV"
-                  | "Aggregate - Sleep"
-                  | "Aggregate - %Worn",
-              )
+              setViewMode(e.target.value as ViewMode)
             }
             style={{
               backgroundColor: "#4a6fa5",
@@ -134,6 +114,8 @@ export default function NavBar({
             <option value="Aggregate - HRV">Aggregate - HRV</option>
             <option value="Aggregate - Sleep">Aggregate - Sleep</option>
             <option value="Aggregate - %Worn">Aggregate - %Worn</option>
+            <option value="File List">File List</option>
+
           </select>
 
           {viewMode === "Daily" && (

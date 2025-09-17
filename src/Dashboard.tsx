@@ -6,6 +6,7 @@ import User_Table from "./graphs_and_table/User_Table";
 import Metric_Graph from "./graphs_and_table/Metric_Graph";
 import Aggregate_Table from "./graphs_and_table/agg_tables/Aggregate_Table";
 import ChangePW from "./ChangePW";
+import FileList from "./FileList";
 
 export type UserData = {
   user_id: string;
@@ -75,6 +76,14 @@ export type PivotedRow = {
   [userId: string]: number | null | string;
 };
 
+export type ViewMode =
+| "Daily"
+| "Aggregate - Steps"
+| "Aggregate - HRV"
+| "Aggregate - Sleep"
+| "Aggregate - %Worn"
+| "File List"
+
 function pivotAgg<T extends { date_queried: string; user_id: string }>(
   data: (T & Record<string, any>)[],
 ): PivotedRow[] {
@@ -119,13 +128,7 @@ export default function Dashboard({ token }: { token: string }) {
     sleep: [],
   });
 
-  const [viewMode, setViewMode] = useState<
-    | "Daily"
-    | "Aggregate - Steps"
-    | "Aggregate - HRV"
-    | "Aggregate - Sleep"
-    | "Aggregate - %Worn"
-  >("Daily");
+  const [viewMode, setViewMode] = useState<ViewMode>("Daily");
 
   const [aggregateData, setAggregateData] = useState<AggPivoted>({
     HRV: [],
@@ -321,6 +324,15 @@ export default function Dashboard({ token }: { token: string }) {
             {viewMode === "Aggregate - %Worn" && (
               <Aggregate_Table data={aggregateData.worn} title="%Worn" />
             )}
+
+            {viewMode === "File List" && (
+              <FileList />
+            )}
+
+
+
+
+
           </main>
         </>
       )}
