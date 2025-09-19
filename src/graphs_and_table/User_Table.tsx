@@ -29,10 +29,11 @@ export default function User_Table(props: {
     sub: string;
     width?: string;
   }[] = [
+    { key: "pct_night", label: "Night", sub: "(12AM–6AM)", width: "80px" },
     { key: "pct_morning", label: "Morning", sub: "(6AM–Noon)", width: "80px" },
     { key: "pct_afternoon", label: "Afternoon", sub: "(Noon–6PM)", width: "80px" },
     { key: "pct_evening", label: "Evening", sub: "(6PM–12AM)", width: "80px" },
-    { key: "pct_night", label: "Night", sub: "(12AM–6AM)", width: "80px" },
+
   ] as const;
 
   const renderMetricCell = (u: UserData, key: keyof UserData) => {
