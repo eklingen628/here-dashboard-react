@@ -1,4 +1,5 @@
-import type { UserData } from "./App";
+import type { UserData } from "./Dashboard";
+import { useState, useRef, useEffect } from "react";
 
 type NavBarProps = {
   setDate: React.Dispatch<React.SetStateAction<string>>;
@@ -22,6 +23,7 @@ type NavBarProps = {
       | "Aggregate - %Worn"
     >
   >;
+  setPWView: React.Dispatch<React.SetStateAction<"dashboard" | "changepw">>;
 };
 
 export default function NavBar({
@@ -33,7 +35,28 @@ export default function NavBar({
   userDailyData,
   viewMode,
   setViewMode,
+  setPWView,
 }: NavBarProps) {
+  const [open, setOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  function handleSignOut() {
+    localStorage.removeItem("token");
+    window.location.reload(); // goes back to <Login />
+  }
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+
+
   return (
     <nav
       style={{
@@ -47,30 +70,35 @@ export default function NavBar({
         padding: "0.75rem 1rem",
       }}
     >
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          flexWrap: "wrap", // ✅ allow items to wrap on smaller screens
-          rowGap: "0.75rem", // ✅ space between rows when wrapping
-          columnGap: "2rem",
-        }}
-      >
-        {/* Title */}
-        <div style={{ marginRight: "clamp(1rem, 10vw, 5rem)" }}>
-          <h4 style={{ margin: 0, fontWeight: "bold" }}>Here-Dashboard</h4>
-        </div>
 
+      
+<div
+  style={{
+    maxWidth: "1200px",
+    margin: "0 auto",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    flexWrap: "wrap",
+    gap: "1rem",
+  }}
+>
+        {/* Left: Title */}
+        <h4 style={{ margin: 0, fontWeight: "bold", color: "#333" }}>
+    Here-Dashboard
+  </h4>
+
+        {/* Center: Controls */}
         <div
           style={{
             display: "flex",
-            justifyContent: "center",
             alignItems: "center",
             gap: "1rem",
+            flex: 1,
+            justifyContent: "center",
           }}
         >
-          {/* Aggregate or Daily selector */}
+          {/* View selector */}
           <select
             value={viewMode}
             onChange={(e) =>
@@ -84,20 +112,20 @@ export default function NavBar({
               )
             }
             style={{
-              backgroundColor: "red",
+              backgroundColor: "#4a6fa5",
               color: "white",
-              border: "1px red",
+              border: "none",
               borderRadius: "12px",
               fontWeight: "bold",
+              padding: "0.35rem 2rem 0.35rem 0.75rem",
               appearance: "none",
               WebkitAppearance: "none",
               MozAppearance: "none",
-              padding: "0.25rem 2rem 0.25rem 0.75rem",
               backgroundImage:
                 "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='white'><path d='M7 10l5 5 5-5z'/></svg>\")",
               backgroundRepeat: "no-repeat",
-              backgroundPosition: "right 0.5rem center",
-              backgroundSize: "25px",
+              backgroundPosition: "right 0.75rem center",
+              backgroundSize: "12px",
               cursor: "pointer",
             }}
           >
@@ -115,20 +143,20 @@ export default function NavBar({
                 value={selectedUser}
                 onChange={(e) => setSelectedUser(e.target.value)}
                 style={{
-                  backgroundColor: "#007bff",
+                  backgroundColor: "#5c8d89",
                   color: "white",
-                  border: "1px solid #0056b3",
+                  border: "none",
                   borderRadius: "12px",
                   fontWeight: "bold",
+                  padding: "0.35rem 2rem 0.35rem 0.75rem",
                   appearance: "none",
                   WebkitAppearance: "none",
                   MozAppearance: "none",
-                  padding: "0.25rem 2rem 0.25rem 0.75rem",
                   backgroundImage:
                     "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='white'><path d='M7 10l5 5 5-5z'/></svg>\")",
                   backgroundRepeat: "no-repeat",
-                  backgroundPosition: "right 0.5rem center",
-                  backgroundSize: "25px",
+                  backgroundPosition: "right 0.75rem center",
+                  backgroundSize: "12px",
                   cursor: "pointer",
                 }}
               >
@@ -139,48 +167,191 @@ export default function NavBar({
                 ))}
               </select>
 
-              {/* Back button */}
-              <button
-                onClick={() => setDate((prev) => shiftDate(prev, -1))}
-                style={{
-                  backgroundColor: "#6c757d",
-                  color: "white",
-                  border: "1px solid #5a6268",
-                  padding: "0.25rem 0.75rem",
-                  borderRadius: "6px",
-                  cursor: "pointer",
-                }}
-              >
-                Back
-              </button>
 
-              {/* Date picker */}
-              <input
-                type="date"
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
-                style={{
-                  padding: "0.25rem 0.75rem",
-                  border: "1px solid #ccc",
-                  borderRadius: "6px",
-                }}
-              />
 
-              {/* Forward button */}
-              <button
-                onClick={() => setDate((prev) => shiftDate(prev, 1))}
-                style={{
-                  backgroundColor: "#17a2b8",
-                  color: "white",
-                  border: "1px solid #117a8b",
-                  padding: "0.25rem 0.75rem",
-                  borderRadius: "6px",
-                  cursor: "pointer",
-                }}
-              >
-                Forward
-              </button>
+
+
+
+
+
+
+
+
+
+
+              {/* Back / Date / Forward cluster */}
+
+
+
+
+
+
+              <div
+  style={{
+    display: "inline-flex",
+    border: "1px solid #ccc",
+    borderRadius: "8px",
+    overflow: "hidden",
+    alignItems: "center",
+  }}
+>
+  <button
+    onClick={() => setDate((prev) => shiftDate(prev, -1))}
+    style={{
+      padding: "0.4rem 1.25rem",
+      border: "none",
+      background: "#f5f5f5",
+      cursor: "pointer",
+      transition: "all 0.2s ease",
+    }}
+    onMouseOver={(e) => (e.currentTarget.style.background = "#e6e6e6")}
+    onMouseOut={(e) => (e.currentTarget.style.background = "#f5f5f5")}
+  >
+    ◀
+  </button>
+
+  <input
+    type="date"
+    value={date}
+    onChange={(e) => {
+      const val = e.target.value
+      if (val === "") {
+        const defaultDate = new Date(Date.now() - 86400000).toLocaleDateString("en-CA")
+        setDate(defaultDate)
+      }
+      else {
+        setDate(val)
+
+      }
+    
+      
+      
+      }}
+    style={{
+      width: "162px",
+      border: "none",
+      padding: "0.4rem 0.75rem",
+      textAlign: "center",
+      outline: "none",
+      background: "white",
+      fontWeight: "bold",
+      minWidth: "130px",
+    }}
+  />
+
+  <button
+    onClick={() => setDate((prev) => shiftDate(prev, 1))}
+    style={{
+      padding: "0.4rem 1.25rem",
+      border: "none",
+      background: "#f5f5f5",
+      cursor: "pointer",
+      transition: "all 0.2s ease",
+    }}
+    onMouseOver={(e) => (e.currentTarget.style.background = "#e6e6e6")}
+    onMouseOut={(e) => (e.currentTarget.style.background = "#f5f5f5")}
+  >
+    ▶
+  </button>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
             </>
+          )}
+        </div>
+
+        {/* Right: Profile */}
+        <div ref={menuRef} style={{ position: "relative" }}>
+          <button
+            onClick={() => setOpen(!open)}
+            style={{
+              padding: "0.5rem 1rem",
+              border: "1px solid #c0c0c0",
+              borderRadius: "6px",
+              background: "#e0e0e0",
+              color: "#333",
+              cursor: "pointer",
+              fontSize: "0.95rem",
+              transition: "all 0.2s ease",
+            }}
+            onMouseOver={(e) =>
+              (e.currentTarget.style.filter = "brightness(95%)")
+            }
+            onMouseOut={(e) => (e.currentTarget.style.filter = "none")}
+          >
+            Profile ▾
+          </button>
+
+          {open && (
+            <div
+              style={{
+                position: "absolute",
+                top: "110%",
+                right: 0,
+                background: "#ffffff",
+                border: "1px solid #c0c0c0",
+                borderRadius: "8px",
+                boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                display: "flex",
+                flexDirection: "column",
+                minWidth: "160px",
+                zIndex: 1000,
+              }}
+            >
+              <button
+                onClick={handleSignOut}
+                style={{
+                  padding: "0.75rem 1rem",
+                  border: "none",
+                  background: "transparent",
+                  color: "#333",
+                  textAlign: "left",
+                  cursor: "pointer",
+                  fontSize: "0.9rem",
+                  borderRadius: "6px",
+                }}
+                onMouseOver={(e) =>
+                  (e.currentTarget.style.background = "#f0f0f0")
+                }
+                onMouseOut={(e) =>
+                  (e.currentTarget.style.background = "transparent")
+                }
+              >
+                Sign Out
+              </button>
+
+              <button
+                onClick={() => setPWView("changepw")}
+                style={{
+                  padding: "0.75rem 1rem",
+                  border: "none",
+                  background: "transparent",
+                  color: "#333",
+                  textAlign: "left",
+                  cursor: "pointer",
+                  fontSize: "0.9rem",
+                  borderRadius: "6px",
+                }}
+                onMouseOver={(e) =>
+                  (e.currentTarget.style.background = "#f0f0f0")
+                }
+                onMouseOut={(e) =>
+                  (e.currentTarget.style.background = "transparent")
+                }
+              >
+                Change Password
+              </button>
+            </div>
           )}
         </div>
       </div>
