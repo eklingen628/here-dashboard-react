@@ -109,7 +109,23 @@ function pivotAgg<T extends { date_queried: string; user_id: string }>(
   });
 }
 
+
+
+
+
+
+
 export default function Dashboard({ token }: { token: string }) {
+
+  const [isPrivileged, setIsPrivileged] = useState(false);
+
+  useEffect(() => {
+    // decode once at app start
+    const payload = JSON.parse(atob(token.split(".")[1]));
+    setIsPrivileged(!!payload.privileged);
+  }, [token]);
+
+
   const [pwView, setPWView] = useState<"dashboard" | "changepw">("dashboard");
 
   const [selectedUser, setSelectedUser] = useState<string>("");
@@ -245,6 +261,7 @@ export default function Dashboard({ token }: { token: string }) {
             viewMode={viewMode}
             setViewMode={setViewMode}
             setPWView={setPWView}
+            isPrivileged={isPrivileged}
           />
 
           <main
@@ -325,8 +342,8 @@ export default function Dashboard({ token }: { token: string }) {
               <Aggregate_Table data={aggregateData.worn} title="%Worn" />
             )}
 
-            {viewMode === "File List" && (
-              <FileList />
+            {isPrivileged && viewMode === "File List" && (
+              <FileList token={token}/>
             )}
 
 

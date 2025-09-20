@@ -11,7 +11,11 @@ type NavBarProps = {
   viewMode: ViewMode;
   setViewMode: React.Dispatch<React.SetStateAction<ViewMode>>;
   setPWView: React.Dispatch<React.SetStateAction<"dashboard" | "changepw">>;
+  isPrivileged: boolean
 };
+
+
+
 
 export default function NavBar({
   setDate,
@@ -23,6 +27,7 @@ export default function NavBar({
   viewMode,
   setViewMode,
   setPWView,
+  isPrivileged
 }: NavBarProps) {
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -114,7 +119,7 @@ export default function NavBar({
             <option value="Aggregate - HRV">Aggregate - HRV</option>
             <option value="Aggregate - Sleep">Aggregate - Sleep</option>
             <option value="Aggregate - %Worn">Aggregate - %Worn</option>
-            <option value="File List">File List</option>
+            {isPrivileged && <option value="File List">File List</option>}
 
           </select>
 

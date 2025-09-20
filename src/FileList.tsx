@@ -2,20 +2,42 @@ import { useState, useEffect } from "react";
 
 
 
-export default function FileList() {
+export default function FileList({ token }: { token: string }) {
     const [files, setFiles] = useState<string[]>([]);
     const [selectedFile, setSelectedFile] = useState<string>("");
 
 
-    function downloadFile(filename: string) {
-        window.location.href = `/api/files/${filename}`;
+    async function downloadFile(filename: string) {
+      const res = await fetch(`/api/files/${filename}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (!res.ok) {
+        alert("Unauthorized");
+        return;
       }
+    
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+    
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = filename;
+      link.click();
+    
+      URL.revokeObjectURL(url);
+    }
+    
 
       useEffect(() => {
-        fetch("/api/files")
-          .then(res => res.json())
+        fetch("/api/files", {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (!res.ok) throw new Error("Unauthorized");
+          return res.json();
+        })
           .then(list => {
-            const sorted = list.slice().sort((a,b) =>
+            const sorted = list.slice().sort((a: string, b: string) =>
               a.localeCompare(b, undefined, { numeric: true, sensitivity: "base" })
             );
             setFiles(sorted);
